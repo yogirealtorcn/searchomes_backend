@@ -10,9 +10,9 @@ import formrouter from "./routes/formrouter.js";
 import newsrouter from "./routes/newsRoute.js";
 import appointmentRouter from "./routes/appointmentRoute.js";
 import adminRouter from "./routes/adminRoute.js";
+import propertyrouter from "./routes/ProductRouter.js";
 import fetch from "node-fetch";
 import "./models/statsModel.js";
-import Property from "./models/Property.js";
 import nodemailer from "nodemailer";
 
 dotenv.config();
@@ -46,15 +46,15 @@ const corsOptions = {
       return callback(null, true);
     }
     
-    // List of allowed origins
+    // List of allowed origins (no trailing slash - browser sends origin without it)
     const allowedOrigins = [
       "http://localhost:5173",
-      "http://localhost:5174", 
+      "http://localhost:5174",
       "http://localhost:4000",
       "https://www.searchomnes.com",
-      "https://searchomnes.com",     // ✅ WITHOUT WWW
-      "https://searchomes.com",      // ✅ TYPO VERSION (just in case)
-      "https://searchomes-admin.vercel.app/"
+      "https://searchomnes.com",
+      "https://searchomes.com",
+      "https://searchomes-admin.vercel.app",
     ];
     
     // Check if origin is allowed
@@ -62,9 +62,12 @@ const corsOptions = {
       console.log(`CORS: Allowed origin: ${origin}`);
       callback(null, true);
     } else {
-      // Also allow any subdomain of searchomnes.com
-      if (origin.includes('searchomnes.com') || origin.includes('searchomes.com')) {
-        console.log(`CORS: Allowed subdomain: ${origin}`);
+      if (
+        origin.includes("searchomnes.com") ||
+        origin.includes("searchomes.com") ||
+        origin.includes("searchomes-admin.vercel.app")
+      ) {
+        console.log(`CORS: Allowed origin: ${origin}`);
         callback(null, true);
       } else {
         console.log(`CORS: Blocked origin: ${origin}`);
@@ -153,6 +156,7 @@ app.use("/api/forms", formrouter);
 app.use("/api/news", newsrouter);
 app.use("/api/appointments", appointmentRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/products", propertyrouter);
 
 // 📸 Enhanced Image Proxy
 app.get("/api/proxy-image", async (req, res) => {
