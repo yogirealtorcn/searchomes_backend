@@ -75,4 +75,4 @@ const updateproperty = async (req, res) => {
     }
 };
 
-export { addproperty, removeproperty, updateproperty, singleproperty };
+export { addproperty, updateproperty };
