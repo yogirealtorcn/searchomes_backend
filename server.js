@@ -175,6 +175,13 @@ import axios from "axios";
 import connectdb from "./config/mongodb.js";
 import cors from "cors";
 import fs from "fs";
+import userrouter from "./routes/UserRoute.js";
+import formrouter from "./routes/formrouter.js";
+import newsrouter from "./routes/newsRoute.js";
+import appointmentRouter from "./routes/appointmentRoute.js";
+import adminRouter from "./routes/adminRoute.js";
+import propertyrouter from "./routes/ProductRouter.js";
+// import blogRouter from "./routes/blogRoute.js";
 
 dotenv.config();
 const app = express();
@@ -188,7 +195,27 @@ const BATCH_SIZE = 10;
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://searchomes-admin.vercel.app",
+      "http://localhost:5173",
+      "http://localhost:5174",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+    credentials: true,
+  })
+);
+
+// API routes (admin, products, appointments, blogs, etc.)
+app.use("/api/users", userrouter);
+app.use("/api/forms", formrouter);
+app.use("/api/news", newsrouter);
+app.use("/api/appointments", appointmentRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/products", propertyrouter);
+// app.use("/api/blogs", blogRouter);
 
 // ✅ MongoDB Schemas
 const propertySchema = new mongoose.Schema({
