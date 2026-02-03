@@ -55,6 +55,8 @@ const corsOptions = {
       "https://searchomnes.com",
       "https://searchomes.com",
       "https://searchomes-admin.vercel.app",
+      "https://searchomes-frontend-6k6y.vercel.app",
+      "https://searchomes-frontend.vercel.app/"
     ];
     
     // Check if origin is allowed
@@ -65,7 +67,8 @@ const corsOptions = {
       if (
         origin.includes("searchomnes.com") ||
         origin.includes("searchomes.com") ||
-        origin.includes("searchomes-admin.vercel.app")
+        origin.includes("searchomes-admin.vercel.app") ||
+        origin.includes("searchomes-frontend")
       ) {
         console.log(`CORS: Allowed origin: ${origin}`);
         callback(null, true);
